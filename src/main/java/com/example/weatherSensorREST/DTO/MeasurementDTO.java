@@ -5,6 +5,7 @@ import com.example.weatherSensorREST.entities.Sensor;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class MeasurementDTO {
@@ -13,8 +14,10 @@ public class MeasurementDTO {
     @Max(value = 100, message = "temperature value can't be greater than 100")
     private double value;
 
+    @NotNull(message = "This field can't be empty!")
     private boolean raining;
 
+    @NotNull(message = "This field can't be empty!")
     private SensorDTO sensor;
 
     public double getValue() {

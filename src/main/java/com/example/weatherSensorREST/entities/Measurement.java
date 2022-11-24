@@ -3,6 +3,7 @@ package com.example.weatherSensorREST.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
@@ -20,12 +21,14 @@ public class Measurement {
     @Column(name = "value")
     private double value;
 
+    @NotNull(message = "This field must not be empty!")
     @Column(name = "raining")
     private boolean raining;
 
     @Column(name = "measurement_time")
     private LocalDateTime measurementTime;
 
+    @NotNull(message = "This field can't be empty!")
     @ManyToOne
     @JoinColumn(name = "sensor_id",
             referencedColumnName = "id")
