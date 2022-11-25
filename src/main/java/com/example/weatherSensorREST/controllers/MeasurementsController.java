@@ -5,7 +5,6 @@ import com.example.weatherSensorREST.services.MeasurementsService;
 import com.example.weatherSensorREST.services.SensorsService;
 import com.example.weatherSensorREST.util.MeasurementErrorResponse;
 import com.example.weatherSensorREST.util.MeasurementException;
-import com.example.weatherSensorREST.util.RainyDaysCount;
 import com.example.weatherSensorREST.util.SensorNotFoundValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -69,8 +70,11 @@ public class MeasurementsController {
     }
 
     @GetMapping("/rainyDaysCount")
-    public RainyDaysCount ShowRainyDaysCount() {
-        return measurementsService.rainyDaysCount();
+    public Map<String, Integer> ShowRainyDaysCount() {
+        Map<String, Integer> rainyDays = new HashMap<>();
+            rainyDays.put("rainy days count", (int) measurementsService.showAll()
+                .stream().filter(measurement -> measurement.isRaining()).count());
+        return rainyDays;
     }
 
 

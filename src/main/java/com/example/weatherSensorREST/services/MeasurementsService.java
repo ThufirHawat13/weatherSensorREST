@@ -3,13 +3,14 @@ package com.example.weatherSensorREST.services;
 import com.example.weatherSensorREST.DTO.MeasurementDTO;
 import com.example.weatherSensorREST.entities.Measurement;
 import com.example.weatherSensorREST.repositories.MeasurementsRepository;
-import com.example.weatherSensorREST.util.RainyDaysCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,17 +28,6 @@ public class MeasurementsService {
 
     public List<Measurement> showAll() {
         return measurementsRepository.findAll();
-    }
-
-    public RainyDaysCount rainyDaysCount() {
-        RainyDaysCount rainyDaysCount = new RainyDaysCount();
-        int count = 0;
-        List<Measurement> measurements = measurementsRepository.findAll();
-        for(Measurement measurement : measurements) {
-            if(measurement.isRaining()) count++;
-        }
-        rainyDaysCount.setCount(count);
-        return rainyDaysCount;
     }
 
     @Transactional
