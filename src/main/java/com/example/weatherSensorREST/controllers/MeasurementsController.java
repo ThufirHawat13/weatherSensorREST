@@ -23,64 +23,61 @@ import java.util.stream.Collectors;
 @RequestMapping("/measurements")
 public class MeasurementsController {
 
-    private final SensorNotFoundValidator sensorNotFoundValidator;
+  private final SensorNotFoundValidator sensorNotFoundValidator;
 
-    private final MeasurementsService measurementsService;
+  private final MeasurementsService measurementsService;
 
-    private final SensorsService sensorsService;
+  private final SensorsService sensorsService;
 
-    @Autowired
-    public MeasurementsController(SensorNotFoundValidator sensorNotFoundValidator, MeasurementsService measurementsService, SensorsService sensorsService) {
-        this.sensorNotFoundValidator = sensorNotFoundValidator;
-        this.measurementsService = measurementsService;
-        this.sensorsService = sensorsService;
+  @Autowired
+  public MeasurementsController(SensorNotFoundValidator sensorNotFoundValidator,
+      MeasurementsService measurementsService, SensorsService sensorsService) {
+    this.sensorNotFoundValidator = sensorNotFoundValidator;
+    this.measurementsService = measurementsService;
+    this.sensorsService = sensorsService;
+  }
+
+  @PostMapping("/add")
+  public ResponseEntity<HttpStatus> addMeasurement(
+      @RequestBody @Valid MeasurementDTO measurementDTO, BindingResult bindingResult) {
+    sensorNotFoundValidator.validate(measurementDTO.getSensor(), bindingResult);
+    if (bindingResult.hasErrors()) {
+      StringBuilder errorMessage = new StringBuilder();
+
+      List<FieldError> errors = bindingResult.getFieldErrors();
+      for (FieldError error : errors) {
+        errorMessage.append(error.getField())
+            .append(" - ").append(error.getDefaultMessage())
+            .append(";");
+      }
+      throw new MeasurementException(errorMessage.toString());
     }
+    measurementsService.save(measurementDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
 
-    @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO, BindingResult bindingResult) {
-        sensorNotFoundValidator.validate(measurementDTO.getSensor(), bindingResult);
-        if(bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
+  @ExceptionHandler
+  private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementException e) {
+    MeasurementErrorResponse measurementErrorResponse = new MeasurementErrorResponse(
+        e.getMessage(),
+        System.currentTimeMillis());
+    return new ResponseEntity<>(measurementErrorResponse, HttpStatus.BAD_REQUEST);
+  }
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new MeasurementException(errorMessage.toString());
-        }
-        measurementsService.save(measurementDTO);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
+  @GetMapping
+  public List<MeasurementDTO> showAllMeasurements() {
+    return measurementsService.showAll().stream()
+        .map(measurement -> measurementsService.convertToMeasurementDTO(measurement))
+        .collect(Collectors.toList());
+  }
 
-    @ExceptionHandler
-    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementException e) {
-        MeasurementErrorResponse measurementErrorResponse = new MeasurementErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis());
-        return new ResponseEntity<>(measurementErrorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping
-    public List<MeasurementDTO> showAllMeasurements() {
-        return measurementsService.showAll().stream()
-                        .map(measurement -> measurementsService.convertToMeasurementDTO(measurement))
-                        .collect(Collectors.toList());
-    }
-
-    @GetMapping("/rainyDaysCount")
-    public Map<String, Integer> ShowRainyDaysCount() {
-        Map<String, Integer> rainyDays = new HashMap<>();
-            rainyDays.put("rainy days count", (int) measurementsService.showAll()
-                .stream().filter(measurement -> measurement.isRaining()).count());
-        return rainyDays;
-    }
-
-
-
-
-
+  @GetMapping("/rainyDaysCount")
+  public Map<String, Integer> ShowRainyDaysCount() {
+    Map<String, Integer> rainyDays = new HashMap<>();
+    rainyDays.put("rainy days count", (int) measurementsService.showAll()
+        .stream().filter(measurement -> measurement.isRaining()).count());
+    return rainyDays;
+  }
 
 
 }

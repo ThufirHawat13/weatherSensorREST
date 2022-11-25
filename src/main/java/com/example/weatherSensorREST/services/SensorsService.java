@@ -15,35 +15,35 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class SensorsService {
 
-    private final SensorsRepository sensorsRepository;
+  private final SensorsRepository sensorsRepository;
 
-    @Autowired
-    public SensorsService(SensorsRepository sensorsRepository) {
-        this.sensorsRepository = sensorsRepository;
-    }
+  @Autowired
+  public SensorsService(SensorsRepository sensorsRepository) {
+    this.sensorsRepository = sensorsRepository;
+  }
 
 
-    public Sensor findByName(String name) {
-        Optional<Sensor> sensor = sensorsRepository.findByName(name);
-        return sensor.orElse(null);
-    }
+  public Sensor findByName(String name) {
+    Optional<Sensor> sensor = sensorsRepository.findByName(name);
+    return sensor.orElse(null);
+  }
 
-    @Transactional
-    public void save(Sensor sensor) {
-        sensorsRepository.save(sensor);
-        }
+  @Transactional
+  public void save(Sensor sensor) {
+    sensorsRepository.save(sensor);
+  }
 
-    public Sensor convertToSensor(SensorDTO sensorDTO) {
-        Sensor sensor = new Sensor();
-        sensor.setName(sensorDTO.getName());
-        return sensor;
-    }
+  public Sensor convertToSensor(SensorDTO sensorDTO) {
+    Sensor sensor = new Sensor();
+    sensor.setName(sensorDTO.getName());
+    return sensor;
+  }
 
-    public SensorDTO convertToSensorDTO(Sensor sensor) {
-        SensorDTO sensorDTO = new SensorDTO();
-        sensorDTO.setName(sensor.getName());
-        return sensorDTO;
-    }
+  public SensorDTO convertToSensorDTO(Sensor sensor) {
+    SensorDTO sensorDTO = new SensorDTO();
+    sensorDTO.setName(sensor.getName());
+    return sensorDTO;
+  }
 
 
 }

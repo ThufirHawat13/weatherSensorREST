@@ -10,24 +10,24 @@ import org.springframework.validation.Validator;
 @Component
 public class SensorNotFoundValidator implements Validator {
 
-    private final SensorsService sensorsService;
+  private final SensorsService sensorsService;
 
-    @Autowired
-    public SensorNotFoundValidator(SensorsService sensorsService) {
-        this.sensorsService = sensorsService;
-    }
+  @Autowired
+  public SensorNotFoundValidator(SensorsService sensorsService) {
+    this.sensorsService = sensorsService;
+  }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return SensorDTO.class.equals(clazz);
-    }
+  @Override
+  public boolean supports(Class<?> clazz) {
+    return SensorDTO.class.equals(clazz);
+  }
 
-    @Override
-    public void validate(Object target, Errors errors) {
-        SensorDTO sensor = (SensorDTO) target;
-        if(sensorsService.findByName(sensor.getName()) == null) {
-            errors.rejectValue("sensor", "",
-                    "Sensor with that name doesn't exists!");
-        }
+  @Override
+  public void validate(Object target, Errors errors) {
+    SensorDTO sensor = (SensorDTO) target;
+    if (sensorsService.findByName(sensor.getName()) == null) {
+      errors.rejectValue("sensor", "",
+          "Sensor with that name doesn't exists!");
     }
+  }
 }

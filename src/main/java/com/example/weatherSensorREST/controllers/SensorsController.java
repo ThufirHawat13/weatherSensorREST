@@ -19,43 +19,43 @@ import java.util.List;
 @RequestMapping("/sensors")
 public class SensorsController {
 
-    private final SensorsService sensorsService;
-    private final SensorDuplicateValidator sensorDuplicateValidator;
+  private final SensorsService sensorsService;
+  private final SensorDuplicateValidator sensorDuplicateValidator;
 
-    @Autowired
-    public SensorsController(SensorsService sensorsService, SensorDuplicateValidator sensorDuplicateValidator) {
-        this.sensorsService = sensorsService;
-        this.sensorDuplicateValidator = sensorDuplicateValidator;
+  @Autowired
+  public SensorsController(SensorsService sensorsService,
+      SensorDuplicateValidator sensorDuplicateValidator) {
+    this.sensorsService = sensorsService;
+    this.sensorDuplicateValidator = sensorDuplicateValidator;
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<HttpStatus> registerSensor(@RequestBody @Valid SensorDTO sensorDTO,
+      BindingResult bindingResult) {
+    sensorDuplicateValidator.validate(sensorDTO, bindingResult);
+    if (bindingResult.hasErrors()) {
+      StringBuilder errorMessage = new StringBuilder();
+
+      List<FieldError> errors = bindingResult.getFieldErrors();
+      for (FieldError error : errors) {
+        errorMessage.append(error.getField())
+            .append(" - ").append(error.getDefaultMessage())
+            .append(";");
+      }
+      throw new SensorDuplicateException(errorMessage.toString());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<HttpStatus> registerSensor(@RequestBody @Valid SensorDTO sensorDTO, BindingResult bindingResult) {
-        sensorDuplicateValidator.validate(sensorDTO, bindingResult);
-        if(bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
+    sensorsService.save(sensorsService.convertToSensor(sensorDTO));
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for(FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new SensorDuplicateException(errorMessage.toString());
-        }
-
-            sensorsService.save(sensorsService.convertToSensor(sensorDTO));
-            return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<SensorErrorResponse> handleException(SensorDuplicateException e) {
-        SensorErrorResponse sensorErrorResponse = new SensorErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis());
-        return new ResponseEntity<>(sensorErrorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-
+  @ExceptionHandler
+  private ResponseEntity<SensorErrorResponse> handleException(SensorDuplicateException e) {
+    SensorErrorResponse sensorErrorResponse = new SensorErrorResponse(
+        e.getMessage(),
+        System.currentTimeMillis());
+    return new ResponseEntity<>(sensorErrorResponse, HttpStatus.BAD_REQUEST);
+  }
 
 
 }
