@@ -1,14 +1,13 @@
 package com.example.weatherSensorREST.services;
 
 
-import com.example.weatherSensorREST.DTO.SensorDTO;
+import com.example.weatherSensorREST.dto.SensorDTO;
 import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.repositories.SensorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Table;
 import java.util.Optional;
 
 @Service
@@ -33,17 +32,7 @@ public class SensorsService {
     sensorsRepository.save(sensor);
   }
 
-  public Sensor convertToSensor(SensorDTO sensorDTO) {
-    Sensor sensor = new Sensor();
-    sensor.setName(sensorDTO.getName());
-    return sensor;
-  }
 
-  public SensorDTO convertToSensorDTO(Sensor sensor) {
-    SensorDTO sensorDTO = new SensorDTO();
-    sensorDTO.setName(sensor.getName());
-    return sensorDTO;
-  }
 
 
 }

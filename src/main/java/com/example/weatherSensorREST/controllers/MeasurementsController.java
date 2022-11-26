@@ -1,6 +1,7 @@
 package com.example.weatherSensorREST.controllers;
 
-import com.example.weatherSensorREST.DTO.MeasurementDTO;
+import com.example.weatherSensorREST.dto.MeasurementDTO;
+import com.example.weatherSensorREST.mapppers.MeasurementMapper;
 import com.example.weatherSensorREST.services.MeasurementsService;
 import com.example.weatherSensorREST.services.SensorsService;
 import com.example.weatherSensorREST.util.MeasurementErrorResponse;
@@ -27,14 +28,15 @@ public class MeasurementsController {
 
   private final MeasurementsService measurementsService;
 
-  private final SensorsService sensorsService;
+  private final MeasurementMapper measurementMapper;
+
 
   @Autowired
   public MeasurementsController(SensorNotFoundValidator sensorNotFoundValidator,
-      MeasurementsService measurementsService, SensorsService sensorsService) {
+      MeasurementsService measurementsService, MeasurementMapper measurementMapper) {
     this.sensorNotFoundValidator = sensorNotFoundValidator;
     this.measurementsService = measurementsService;
-    this.sensorsService = sensorsService;
+    this.measurementMapper = measurementMapper;
   }
 
   @PostMapping("/add")
@@ -67,7 +69,7 @@ public class MeasurementsController {
   @GetMapping
   public List<MeasurementDTO> showAllMeasurements() {
     return measurementsService.showAll().stream()
-        .map(measurement -> measurementsService.convertToMeasurementDTO(measurement))
+        .map(measurement -> measurementMapper.convertToMeasurementDTO(measurement))
         .collect(Collectors.toList());
   }
 

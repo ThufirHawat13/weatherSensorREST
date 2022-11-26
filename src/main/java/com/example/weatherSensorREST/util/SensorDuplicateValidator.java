@@ -1,6 +1,6 @@
 package com.example.weatherSensorREST.util;
 
-import com.example.weatherSensorREST.DTO.SensorDTO;
+import com.example.weatherSensorREST.dto.SensorDTO;
 import com.example.weatherSensorREST.services.SensorsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

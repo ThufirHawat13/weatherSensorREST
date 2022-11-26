@@ -1,4 +1,4 @@
-package com.example.weatherSensorREST.DTO;
+package com.example.weatherSensorREST.dto;
 
 import javax.validation.constraints.Size;
 
