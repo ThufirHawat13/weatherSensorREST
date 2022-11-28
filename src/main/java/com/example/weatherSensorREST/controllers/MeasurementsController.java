@@ -75,13 +75,6 @@ public class MeasurementsController {
         .collect(Collectors.toList());
   }
 
-  @GetMapping("/rainyDaysCount")
-  public Map<String, Integer> ShowRainyDaysCount() {
-    Map<String, Integer> rainyDays = new HashMap<>();
-    rainyDays.put("rainy days count", (int) measurementsService.showAll()
-        .stream().filter(measurement -> measurement.isRaining()).count());
-    return rainyDays;
-  }
 
 
 
