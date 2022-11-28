@@ -1,6 +1,7 @@
 package com.example.weatherSensorREST.controllers;
 
 import com.example.weatherSensorREST.dto.MeasurementDTO;
+import com.example.weatherSensorREST.dto.StatDTO;
 import com.example.weatherSensorREST.mapppers.MeasurementMapper;
 import com.example.weatherSensorREST.services.MeasurementsService;
 import com.example.weatherSensorREST.services.SensorsService;
@@ -29,6 +30,7 @@ public class MeasurementsController {
   private final MeasurementsService measurementsService;
 
   private final MeasurementMapper measurementMapper;
+
 
 
   @Autowired
@@ -80,6 +82,7 @@ public class MeasurementsController {
         .stream().filter(measurement -> measurement.isRaining()).count());
     return rainyDays;
   }
+
 
 
 }
