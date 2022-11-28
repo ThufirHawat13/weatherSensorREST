@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/statistics")
-public class StatiscticsController {
+public class StatisticsController {
 
   private final StatService statService;
   private final StatsMapper statsMapper;
 
   @Autowired
-  public StatiscticsController(StatService statService, StatsMapper statsMapper) {
+  public StatisticsController(StatService statService, StatsMapper statsMapper) {
     this.statService = statService;
     this.statsMapper = statsMapper;
   }
