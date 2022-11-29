@@ -36,9 +36,9 @@ public class StatService {
     }
 
     for (Measurement measurement : measurementsService.showAll()) {
+      double value = measurement.getValue();
       for (Stat stat : stats) {
         if (measurement.getSensor().getName().equals(stat.getSensorName())) {
-          double value = measurement.getValue();
           if (value > stat.getMaxValue()) {
             stat.setMaxValue(value);
           }
