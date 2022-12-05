@@ -1,12 +1,10 @@
 package com.example.weatherSensorREST.services;
 
-import com.example.weatherSensorREST.dto.StatDTO;
+import com.example.weatherSensorREST.dao.SensorDAO;
 import com.example.weatherSensorREST.entities.Measurement;
-import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.entities.Stat;
-import com.example.weatherSensorREST.mapppers.MeasurementMapper;
-import com.example.weatherSensorREST.mapppers.SensorMapper;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,40 +17,34 @@ public class StatService {
   private final SensorsService sensorsService;
   private final MeasurementsService measurementsService;
 
+  private final SensorDAO sensorDAO;
+
   @Autowired
-  public StatService(SensorsService sensorsService, MeasurementsService measurementsService) {
+  public StatService(SensorsService sensorsService, MeasurementsService measurementsService,
+      SensorDAO sensorDAO) {
     this.sensorsService = sensorsService;
     this.measurementsService = measurementsService;
+    this.sensorDAO = sensorDAO;
   }
 
 
   public List<Stat> showStatistics() {
     List<Stat> stats = new ArrayList<>();
-
-    for (Sensor sensor : sensorsService.showAll()) {
+    sensorsService.showAll().stream().forEachOrdered(sensor -> {
+      List<Measurement> measurements = sensorDAO.showAllSensorMeasurements(sensor.getId());
       Stat stat = new Stat();
-      stat.setSensorName(sensor.getName());
+      stat.setSensor(sensor);
+      stat.setMinValue(
+          measurements.stream().mapToDouble(Measurement::getValue).min().getAsDouble());
+      stat.setMaxValue(
+          measurements.stream().mapToDouble(Measurement::getValue).max().getAsDouble());
+      stat.setAvgValue(
+          measurements.stream().mapToDouble(Measurement::getValue).average().getAsDouble());
+      stat.setRainyDaysCount(
+          measurements.stream().filter(measurement -> measurement.isRaining()).count());
+      stat.setMeasurementsCount(measurements.stream().count());
       stats.add(stat);
-    }
-
-    for (Measurement measurement : measurementsService.showAll()) {
-      double value = measurement.getValue();
-      for (Stat stat : stats) {
-        if (measurement.getSensor().getName().equals(stat.getSensorName())) {
-          if (value > stat.getMaxValue()) {
-            stat.setMaxValue(value);
-          }
-          if (value < stat.getMinValue()) {
-            stat.setMinValue(value);
-          }
-          if (measurement.isRaining()) {
-            stat.addRainyDay();
-          }
-          stat.addMeasurement();
-          stat.plusValue(measurement.getValue());
-        }
-      }
-    }
+    });
     return stats;
   }
 }
