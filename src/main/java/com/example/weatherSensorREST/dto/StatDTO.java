@@ -8,11 +8,11 @@ public class StatDTO {
 
   private double avgValue;
 
-  private double measurementsCount;
+  private long measurementsCount;
 
-  private double rainyDaysCount;
+  private long rainyDaysCount;
 
-  private String sensorName;
+  private SensorDTO sensor;
 
   public double getMinValue() {
     return minValue;
@@ -38,27 +38,27 @@ public class StatDTO {
     this.avgValue = avgValue;
   }
 
-  public double getMeasurementsCount() {
+  public long getMeasurementsCount() {
     return measurementsCount;
   }
 
-  public void setMeasurementsCount(double measurementsCount) {
+  public void setMeasurementsCount(long measurementsCount) {
     this.measurementsCount = measurementsCount;
   }
 
-  public double getRainyDaysCount() {
+  public long getRainyDaysCount() {
     return rainyDaysCount;
   }
 
-  public void setRainyDaysCount(double rainyDaysCount) {
+  public void setRainyDaysCount(long rainyDaysCount) {
     this.rainyDaysCount = rainyDaysCount;
   }
 
-  public String getSensorName() {
-    return sensorName;
+  public SensorDTO getSensor() {
+    return sensor;
   }
 
-  public void setSensorName(String sensorName) {
-    this.sensorName = sensorName;
+  public void setSensor(SensorDTO sensor) {
+    this.sensor = sensor;
   }
 }

@@ -1,17 +1,16 @@
 package com.example.weatherSensorREST.controllers;
 
-import com.example.weatherSensorREST.dto.MeasurementDTO;
 import com.example.weatherSensorREST.entities.Measurement;
 import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.mapppers.MeasurementMapper;
-import com.example.weatherSensorREST.repositories.MeasurementsRepository;
 import com.example.weatherSensorREST.services.MeasurementsService;
 import com.example.weatherSensorREST.util.SensorNotFoundValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,9 +42,6 @@ class MeasurementsControllerTest {
 
   @MockBean
   private MeasurementsService measurementsService;
-
-  @MockBean
-  private MeasurementsRepository measurementsRepository;
 
   @MockBean
   private MeasurementMapper measurementMapper;
@@ -87,8 +83,21 @@ class MeasurementsControllerTest {
   }
 
   @Test
-  void showAllMeasurements() {
+  void showAllMeasurements() throws Exception {
+    List<Measurement> measurements = new ArrayList<>(Arrays.asList(
+        new Measurement(0.0, true),
+        new Measurement(0.0, true),
+        new Measurement(0.0, true)
+    ));
+    Mockito.when(measurementsService.showAll()).thenReturn(measurements);
 
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/measurements"))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+    Mockito.verify(measurementsService, Mockito.times(1))
+        .showAll();
+    Mockito.verify(measurementMapper, Mockito.times(3))
+        .convertToMeasurementDTO(Mockito.any());
   }
 
 }

@@ -13,13 +13,13 @@ public class Stat {
 
   private double avgValue = 0;
 
-  private int measurementsCount = 0;
+  private long measurementsCount = 0;
 
-  private int rainyDaysCount = 0;
+  private long rainyDaysCount = 0;
 
   private double sumOfValues = 0;
 
-  private String sensorName;
+  private Sensor sensor;
 
   public double getMinValue() {
     return minValue;
@@ -45,28 +45,12 @@ public class Stat {
     this.avgValue = avgValue;
   }
 
-  public double getMeasurementsCount() {
-    return measurementsCount;
+  public Sensor getSensor() {
+    return sensor;
   }
 
-  public void addMeasurement() {
-    measurementsCount++;
-  }
-
-  public double getRainyDaysCount() {
-    return rainyDaysCount;
-  }
-
-  public void addRainyDay() {
-    this.rainyDaysCount++;
-  }
-
-  public String getSensorName() {
-    return sensorName;
-  }
-
-  public void setSensorName(String sensorName) {
-    this.sensorName = sensorName;
+  public void setSensor(Sensor sensor) {
+    this.sensor = sensor;
   }
 
   public double getSumOfValues() {
@@ -75,5 +59,21 @@ public class Stat {
 
   public void plusValue(double value) {
     this.sumOfValues+=value;
+  }
+
+  public long getMeasurementsCount() {
+    return measurementsCount;
+  }
+
+  public void setMeasurementsCount(long measurementsCount) {
+    this.measurementsCount = measurementsCount;
+  }
+
+  public long getRainyDaysCount() {
+    return rainyDaysCount;
+  }
+
+  public void setRainyDaysCount(long rainyDaysCount) {
+    this.rainyDaysCount = rainyDaysCount;
   }
 }
