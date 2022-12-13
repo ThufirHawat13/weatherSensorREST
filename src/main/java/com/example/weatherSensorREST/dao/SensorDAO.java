@@ -24,7 +24,6 @@ public class SensorDAO {
   public List<Measurement> showAllSensorMeasurements(int id) {
     Session session = entityManager.unwrap(Session.class);
     Sensor sensor = session.get(Sensor.class, id);
-    System.out.println(sensor.getMeasurements());
     return sensor.getMeasurements();
   }
 
