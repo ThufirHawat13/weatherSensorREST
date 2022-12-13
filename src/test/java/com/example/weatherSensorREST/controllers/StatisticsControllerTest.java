@@ -46,7 +46,7 @@ class StatisticsControllerTest {
     Mockito.when(statService.showStatistics()).thenReturn(statList);
 
     mockMvc.perform(
-        MockMvcRequestBuilders.get("/statistics"))
+            MockMvcRequestBuilders.get("/statistics"))
         .andExpect(MockMvcResultMatchers.status().isOk());
     Mockito.verify(statService, Mockito.times(1))
         .showStatistics();

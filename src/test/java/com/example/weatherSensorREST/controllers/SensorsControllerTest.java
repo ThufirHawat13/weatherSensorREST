@@ -52,9 +52,9 @@ class SensorsControllerTest {
     Sensor sensor = new Sensor("Test");
 
     mockMvc.perform(
-        MockMvcRequestBuilders.post("/sensors/register")
-            .content(objectMapper.writeValueAsString(sensor))
-            .contentType(MediaType.APPLICATION_JSON))
+            MockMvcRequestBuilders.post("/sensors/register")
+                .content(objectMapper.writeValueAsString(sensor))
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk());
     Mockito.verify(sensorDuplicateValidator, Mockito.times(1))
         .validate(Mockito.any(), Mockito.any());
@@ -70,9 +70,9 @@ class SensorsControllerTest {
     Sensor sensor = new Sensor("T");
 
     mockMvc.perform(
-        MockMvcRequestBuilders.post("/sensors/register")
-            .content(objectMapper.writeValueAsString(sensor))
-            .contentType(MediaType.APPLICATION_JSON))
+            MockMvcRequestBuilders.post("/sensors/register")
+                .content(objectMapper.writeValueAsString(sensor))
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isBadRequest());
     Mockito.verify(sensorDuplicateValidator, Mockito.times(1))
         .validate(Mockito.any(), Mockito.any());
