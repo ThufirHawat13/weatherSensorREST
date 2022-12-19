@@ -1,6 +1,7 @@
 package com.example.weatherSensorREST.controllers;
 
 import com.example.weatherSensorREST.dto.SensorDTO;
+import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.mapppers.SensorMapper;
 import com.example.weatherSensorREST.services.SensorsService;
 import com.example.weatherSensorREST.util.SensorDuplicateException;
@@ -23,14 +24,11 @@ public class SensorsController {
   private final SensorsService sensorsService;
   private final SensorDuplicateValidator sensorDuplicateValidator;
 
-  private final SensorMapper sensorMapper;
-
   @Autowired
   public SensorsController(SensorsService sensorsService,
-      SensorDuplicateValidator sensorDuplicateValidator, SensorMapper sensorMapper) {
+      SensorDuplicateValidator sensorDuplicateValidator) {
     this.sensorsService = sensorsService;
     this.sensorDuplicateValidator = sensorDuplicateValidator;
-    this.sensorMapper = sensorMapper;
   }
 
   @PostMapping("/register")
@@ -49,7 +47,7 @@ public class SensorsController {
       throw new SensorDuplicateException(errorMessage.toString());
     }
 
-    sensorsService.save(sensorMapper.convertToSensor(sensorDTO));
+    sensorsService.save(sensorDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 

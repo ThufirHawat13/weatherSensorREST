@@ -1,5 +1,7 @@
 package com.example.weatherSensorREST.controllers;
 
+import com.example.weatherSensorREST.dto.MeasurementDTO;
+import com.example.weatherSensorREST.dto.SensorDTO;
 import com.example.weatherSensorREST.entities.Measurement;
 import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.mapppers.MeasurementMapper;
@@ -53,8 +55,8 @@ class MeasurementsControllerTest {
 
   @Test
   void addMeasurement() throws Exception {
-    Measurement measurement = new Measurement(0.0, true);
-    measurement.setSensor(new Sensor("Test"));
+    MeasurementDTO measurement = new MeasurementDTO(0.0, true,
+        new SensorDTO("Test"));
 
     mockMvc.perform(
             MockMvcRequestBuilders.post("/measurements/add")
@@ -69,8 +71,8 @@ class MeasurementsControllerTest {
 
   @Test
   void addMeasurementFail() throws Exception {
-    Measurement measurement = new Measurement(-101.0, true);
-    measurement.setSensor(new Sensor(null));
+    MeasurementDTO measurement = new MeasurementDTO(-101.0, true,
+        new SensorDTO("Test"));
 
     mockMvc.perform(
             MockMvcRequestBuilders.post("/measurements/add")
@@ -85,10 +87,10 @@ class MeasurementsControllerTest {
 
   @Test
   void showAllMeasurements() throws Exception {
-    List<Measurement> measurements = new ArrayList<>(Arrays.asList(
-        new Measurement(0.0, true),
-        new Measurement(0.0, true),
-        new Measurement(0.0, true)
+    List<MeasurementDTO> measurements = new ArrayList<>(Arrays.asList(
+        new MeasurementDTO(0.0, true, new SensorDTO("Test")),
+        new MeasurementDTO(0.0, true, new SensorDTO("Test")),
+        new MeasurementDTO(0.0, true, new SensorDTO("Test"))
     ));
     Mockito.when(measurementsService.showAll()).thenReturn(measurements);
 

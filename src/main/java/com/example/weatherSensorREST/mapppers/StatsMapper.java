@@ -22,7 +22,7 @@ public class StatsMapper {
     statDTO.setMaxValue(stat.getMaxValue());
     statDTO.setAvgValue(Math.round(stat.getAvgValue() * 10d)/10d);
     statDTO.setRainyDaysCount(stat.getRainyDaysCount());
-    statDTO.setMeasurementsCount(stat.getMeasurementsCount());
+    statDTO.setMeasurementsCount(stat.getDaysCount());
     statDTO.setSensor(sensorMapper.convertToSensorDTO(stat.getSensor()));
 
     return statDTO;

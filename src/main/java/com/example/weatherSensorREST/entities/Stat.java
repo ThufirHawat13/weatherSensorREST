@@ -7,17 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Stat {
 
-  private double minValue = 100;
+  private double minValue = 0;
 
-  private double maxValue = -100;
+  private double maxValue = 0;
 
   private double avgValue = 0;
 
-  private long measurementsCount = 0;
+  private long daysCount = 0;
 
   private long rainyDaysCount = 0;
-
-  private double sumOfValues = 0;
 
   private Sensor sensor;
 
@@ -45,28 +43,12 @@ public class Stat {
     this.avgValue = avgValue;
   }
 
-  public Sensor getSensor() {
-    return sensor;
+  public long getDaysCount() {
+    return daysCount;
   }
 
-  public void setSensor(Sensor sensor) {
-    this.sensor = sensor;
-  }
-
-  public double getSumOfValues() {
-    return sumOfValues;
-  }
-
-  public void plusValue(double value) {
-    this.sumOfValues+=value;
-  }
-
-  public long getMeasurementsCount() {
-    return measurementsCount;
-  }
-
-  public void setMeasurementsCount(long measurementsCount) {
-    this.measurementsCount = measurementsCount;
+  public void setDaysCount(long daysCount) {
+    this.daysCount = daysCount;
   }
 
   public long getRainyDaysCount() {
@@ -75,5 +57,13 @@ public class Stat {
 
   public void setRainyDaysCount(long rainyDaysCount) {
     this.rainyDaysCount = rainyDaysCount;
+  }
+
+  public Sensor getSensor() {
+    return sensor;
+  }
+
+  public void setSensor(Sensor sensor) {
+    this.sensor = sensor;
   }
 }
