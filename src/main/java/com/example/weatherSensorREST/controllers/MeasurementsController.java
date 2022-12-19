@@ -70,9 +70,7 @@ public class MeasurementsController {
 
   @GetMapping
   public List<MeasurementDTO> showAllMeasurements() {
-    return measurementsService.showAll().stream()
-        .map(measurement -> measurementMapper.convertToMeasurementDTO(measurement))
-        .collect(Collectors.toList());
+    return measurementsService.showAll();
   }
 
 

@@ -4,6 +4,8 @@ import com.example.weatherSensorREST.dto.MeasurementDTO;
 import com.example.weatherSensorREST.entities.Measurement;
 import com.example.weatherSensorREST.services.SensorsService;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,12 @@ public class MeasurementMapper {
     measurementDTO.setRaining(measurement.isRaining());
     measurementDTO.setSensor(sensorMapper.convertToSensorDTO(measurement.getSensor()));
     return measurementDTO;
+  }
+
+  public List<MeasurementDTO> convertToMeasurementDTOS(List<Measurement> measurements) {
+    return measurements.stream()
+        .map(m -> convertToMeasurementDTO(m))
+        .collect(Collectors.toList());
   }
 
   public Measurement enrich(Measurement measurement) {

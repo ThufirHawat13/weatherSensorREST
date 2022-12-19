@@ -2,6 +2,7 @@ package com.example.weatherSensorREST.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.weatherSensorREST.dto.SensorDTO;
 import com.example.weatherSensorREST.entities.Sensor;
 import com.example.weatherSensorREST.mapppers.SensorMapper;
 import com.example.weatherSensorREST.services.SensorsService;
@@ -49,7 +50,7 @@ class SensorsControllerTest {
 
   @Test
   void registerSensor() throws Exception {
-    Sensor sensor = new Sensor("Test");
+    SensorDTO sensor = new SensorDTO("Test");
 
     mockMvc.perform(
             MockMvcRequestBuilders.post("/sensors/register")
@@ -67,7 +68,7 @@ class SensorsControllerTest {
 
   @Test
   void registerSensorFail() throws Exception {
-    Sensor sensor = new Sensor("T");
+    SensorDTO sensor = new SensorDTO("T");
 
     mockMvc.perform(
             MockMvcRequestBuilders.post("/sensors/register")

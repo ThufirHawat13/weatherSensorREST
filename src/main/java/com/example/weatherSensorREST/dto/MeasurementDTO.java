@@ -16,6 +16,15 @@ public class MeasurementDTO {
   @NotNull(message = "This field can't be empty!")
   private SensorDTO sensor;
 
+  public MeasurementDTO(double value, boolean raining, SensorDTO sensor) {
+    this.value = value;
+    this.raining = raining;
+    this.sensor = sensor;
+  }
+
+  public MeasurementDTO() {
+  }
+
   public double getValue() {
     return value;
   }

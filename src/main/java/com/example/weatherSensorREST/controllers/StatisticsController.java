@@ -25,6 +25,7 @@ public class StatisticsController {
 
   @GetMapping()
   public List<StatDTO> showStatistics() {
+
     return statService.showStatistics().stream().map(stat -> statsMapper.convertToStatDTO(stat))
         .collect(Collectors.toList());
   }

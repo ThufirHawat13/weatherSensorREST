@@ -3,6 +3,7 @@ package com.example.weatherSensorREST.services;
 
 import com.example.weatherSensorREST.dto.SensorDTO;
 import com.example.weatherSensorREST.entities.Sensor;
+import com.example.weatherSensorREST.mapppers.SensorMapper;
 import com.example.weatherSensorREST.repositories.SensorsRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,12 @@ public class SensorsService {
 
   private final SensorsRepository sensorsRepository;
 
+  private final SensorMapper sensorMapper;
+
   @Autowired
-  public SensorsService(SensorsRepository sensorsRepository) {
+  public SensorsService(SensorsRepository sensorsRepository, SensorMapper sensorMapper) {
     this.sensorsRepository = sensorsRepository;
+    this.sensorMapper = sensorMapper;
   }
 
   public List<Sensor> showAll() {
@@ -32,8 +36,8 @@ public class SensorsService {
   }
 
   @Transactional
-  public void save(Sensor sensor) {
-    sensorsRepository.save(sensor);
+  public void save(SensorDTO sensorDTO) {
+    sensorsRepository.save(sensorMapper.convertToSensor(sensorDTO));
   }
 
 
