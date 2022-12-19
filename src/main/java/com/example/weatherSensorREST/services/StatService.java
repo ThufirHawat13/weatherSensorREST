@@ -29,7 +29,6 @@ public class StatService {
       stat.setSensor(sensor);
       stats.add(stat);
     });
-    System.out.println(stats);
     return stats;
   }
 
