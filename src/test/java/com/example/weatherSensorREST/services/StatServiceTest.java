@@ -1,11 +1,11 @@
 package com.example.weatherSensorREST.services;
 
-import com.example.weatherSensorREST.dao.SensorDAO;
+import com.example.weatherSensorREST.dao.StatDAO;
 import com.example.weatherSensorREST.entities.Sensor;
+import com.example.weatherSensorREST.entities.Stat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.executable.ValidateOnExecution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,7 +29,7 @@ class StatServiceTest {
   private SensorsService sensorsService;
 
   @MockBean
-  private SensorDAO sensorDAO;
+  private StatDAO statDAO;
 
   @Test
   void showStatistics() {
@@ -37,11 +37,12 @@ class StatServiceTest {
         new Sensor("Test1"),
         new Sensor("Test2")));
     Mockito.when(sensorsService.showAll()).thenReturn(sensors);
+    Mockito.when(statDAO.getStatisticsForSensor(Mockito.anyInt())).thenReturn(new Stat());
     statService.showStatistics();
 
     Mockito.verify(sensorsService, Mockito.times(1))
         .showAll();
-    Mockito.verify(sensorDAO, Mockito.times(3))
-        .showAllSensorMeasurements(Mockito.any());
+    Mockito.verify(statDAO, Mockito.times(3))
+        .getStatisticsForSensor(Mockito.anyInt());
   }
 }
