@@ -59,8 +59,6 @@ class SensorsControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk());
     Mockito.verify(sensorDuplicateValidator, Mockito.times(1))
         .validate(Mockito.any(), Mockito.any());
-    Mockito.verify(sensorMapper, Mockito.times(1))
-        .convertToSensor(Mockito.any());
     Mockito.verify(sensorsService, Mockito.times(1))
         .save(Mockito.any());
 

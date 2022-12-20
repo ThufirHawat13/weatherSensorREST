@@ -99,8 +99,6 @@ class MeasurementsControllerTest {
         .andExpect(MockMvcResultMatchers.status().isOk());
     Mockito.verify(measurementsService, Mockito.times(1))
         .showAll();
-    Mockito.verify(measurementMapper, Mockito.times(3))
-        .convertToMeasurementDTO(Mockito.any());
   }
 
 }
